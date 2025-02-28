@@ -1,6 +1,10 @@
 import UserService from "../services/UserService.js";
+import validate from "../validators/BaseValidator.js";
 
 async function CreateUser(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     const data = await UserService.CreateUser(req.body);
     res.json(data);
@@ -10,9 +14,12 @@ async function CreateUser(req, res) {
 }
 
 async function Login(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     console.log(req.body);
-    //implemtar JWT e criptografia
+    //implementar JWT e criptografia
     const data = await UserService.Login(req.body);
     res.json(data);
   } catch (error) {

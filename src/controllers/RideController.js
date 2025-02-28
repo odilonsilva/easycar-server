@@ -1,6 +1,10 @@
 import RideService from "../services/RideService.js";
+import validate from "../validators/BaseValidator.js";
 
 async function AcceptRide(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     await RideService.AcceptRide(req.params.rideId, req.body.driver_id);
     res.json({ message: "Ride accepted successfully" });
@@ -44,6 +48,9 @@ async function ListRides(req, res) {
 }
 
 async function CancelRide(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     await RideService.CancelRide(req.params.rideId);
     res.json({ message: "Ride canceled successfully" });
@@ -53,6 +60,9 @@ async function CancelRide(req, res) {
 }
 
 async function CancelRideDriver(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     await RideService.CancelRideDriver(req.params.rideId);
     res.json({ message: "Ride canceled successfully" });
@@ -62,6 +72,9 @@ async function CancelRideDriver(req, res) {
 }
 
 async function FinishRide(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     await RideService.FinishRide(req.params.rideId);
     res.json({ message: "Ride finished successfully" });
@@ -71,6 +84,9 @@ async function FinishRide(req, res) {
 }
 
 async function CreateRide(req, res) {
+  const errors = validate(req);
+  if (errors) return res.status(400).json(errors);
+
   try {
     const data = await RideService.CreateRide(req.body);
     res.json(data);

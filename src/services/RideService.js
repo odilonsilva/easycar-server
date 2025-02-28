@@ -48,6 +48,18 @@ async function GetRide(rideId) {
 
 async function CreateRide(ride) {
   try {
+    const pickup_date = new Date().toISOString().split("T")[0];
+
+    const rideOld = await RideRepository.ListRides(
+      ride.passenger_user_id,
+      pickup_date,
+      null,
+      null,
+      null,
+      "F"
+    );
+    if (rideOld.length) throw new Error("You already have a ride for today.");
+
     return await RideRepository.CreateRide(ride);
   } catch (error) {
     throw new Error(error.message);
