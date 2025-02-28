@@ -1,36 +1,40 @@
 import express from "express";
 import RideController from "../controllers/RideController.js";
 import RideValidator from "../validators/RideValidator.js";
-
+import authenticateToken from "../middlewares/AuthMiddleware.js";
 const RideRoutes = express.Router();
 
-RideRoutes.get("/", RideController.ListRides);
+RideRoutes.get("/", authenticateToken, RideController.ListRides);
 RideRoutes.post(
   "/",
-  RideValidator.CreateRideValidator,
+  [authenticateToken, RideValidator.CreateRideValidator],
   RideController.CreateRide
 );
-RideRoutes.get("/:rideId", RideController.GetRide);
+RideRoutes.get("/:rideId", authenticateToken, RideController.GetRide);
 RideRoutes.delete(
   "/:rideId",
-  RideValidator.cancelValidator,
+  [authenticateToken, RideValidator.cancelValidator],
   RideController.CancelRide
 );
 RideRoutes.put(
   "/:rideId/accept",
-  RideValidator.acceptValidator,
+  [authenticateToken, RideValidator.acceptValidator],
   RideController.AcceptRide
 );
 RideRoutes.put(
   "/:rideId/finish",
-  RideValidator.cancelValidator,
+  [authenticateToken, RideValidator.cancelValidator],
   RideController.FinishRide
 );
 RideRoutes.put(
   "/:rideId/cancel",
-  RideValidator.cancelValidator,
+  [authenticateToken, RideValidator.cancelValidator],
   RideController.CancelRideDriver
 );
-RideRoutes.get("/drivers/:driverId", RideController.ListRidesDriver);
+RideRoutes.get(
+  "/drivers/:driverId",
+  authenticateToken,
+  RideController.ListRidesDriver
+);
 
 export default RideRoutes;
