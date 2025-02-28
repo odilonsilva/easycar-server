@@ -72,12 +72,22 @@ easycar-server/
 │ ├── controllers/
 │ │ ├── userController.js
 │ │ └── rideController.js
+│ ├── database/
+│ │ ├── database.db
+│ │ └── sqlite.js
+│ ├── repositories/
+│ │ ├── rideRepository.js
+│ │ └── userRepository.js
 │ ├── routes/
 │ │ ├── userRoutes.js
 │ │ └── rideRoutes.js
 │ ├── services/
 │ │ ├── userService.js
 │ │ └── rideService.js
+│ ├── validators/
+│ │ ├── baseValidator.js
+│ │ ├── rideValidator.js
+│ │ └── userValidator.js
 │ └── index.js
 ├── package.json
 └── README.md
