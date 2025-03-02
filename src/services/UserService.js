@@ -7,13 +7,14 @@ dotenv.config();
 
 async function CreateUser(user) {
   try {
-    const userExists = await GetUserByEmail(user.email);
+    const userExists = await GetUserByEmail(user.email.toLowerCase());
     if (userExists) throw new Error("User already exists");
 
-    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const hashedPassword = await bcrypt.hash(user.password.toLowerCase(), 10);
 
     return await UserRepository.CreateUser({
       ...user,
+      email: user.email.toLowerCase(),
       password: hashedPassword,
     });
   } catch (error) {
@@ -25,10 +26,13 @@ async function Login(data) {
   try {
     const JWT_SECRET = process.env.JWT_SECRET;
 
-    const user = await UserRepository.GetUserByEmail(data.email);
+    const user = await UserRepository.GetUserByEmail(data.email.toLowerCase());
     if (!user) throw new Error("Invalid email");
 
-    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      data.password.toLowerCase(),
+      user.password
+    );
     if (!isPasswordValid) throw new Error("Invalid password");
 
     return {
